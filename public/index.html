@@ -29,7 +29,7 @@
 			service = serviceurl + '?appId=' + document.getElementById('appId').value;
 			document.getElementById('serviceurl').innerHTML = '<a href="' + service + '" >' + service + '</a>';
 
-			// console.log('loading appId ' + appId);
+			 console.log('loading appId ' + appId);
 			document.getElementById('factlist').value = '';
 
 			var url = serviceurl + "?appId=" + appId;
@@ -38,7 +38,7 @@
 
 			xhttp.open("GET", url, true);
 			xhttp.setRequestHeader('Content-Type', 'application/json');
-
+ console.log('after setRequestHeader ' + xhttp.readyState + ' ' + xhttp.status);
 			xhttp.onreadystatechange = function () {
 				if (xhttp.readyState == 4 && xhttp.status == 200) {
 					var data = JSON.parse(xhttp.responseText);

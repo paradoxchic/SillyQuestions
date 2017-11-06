@@ -6,6 +6,58 @@
 	<meta name="description" content="" />
 	<link href="assets/css/styles.css" rel="stylesheet">
 	<link href="assets/css/gradients.css" rel="stylesheet">
+
+<!-- Liz  this is added to invoke script that will load the existing questions-->
+<!-- Liz this is added to invoke script to initialize the variables and text values -->
+	<script>
+
+		//Initialization
+		function init() {
+			console.log('init()');
+			document.getElementById('appId').value = 'amzn1.ask.skill.5c005286-38b8-498a-97d9-4c22b01ab629';
+			document.getElementById('factlist').value = '';
+			service = serviceurl + '?appId=' + document.getElementById('appId').value;
+
+			document.getElementById('serviceurl').innerHTML = '<a href="' + service + '" >' + service + '</a>';
+
+		}
+// Data load
+		function loadData(appId) {
+			document.getElementById('status').innerHTML = 'loading...';
+			document.getElementById('status').className = 'statuslookup';
+
+			service = serviceurl + '?appId=' + document.getElementById('appId').value;
+			document.getElementById('serviceurl').innerHTML = '<a href="' + service + '" >' + service + '</a>';
+
+			// console.log('loading appId ' + appId);
+			document.getElementById('factlist').value = '';
+
+			var url = serviceurl + "?appId=" + appId;
+
+			var xhttp = new XMLHttpRequest({ mozSystem: true });
+
+			xhttp.open("GET", url, true);
+			xhttp.setRequestHeader('Content-Type', 'application/json');
+
+			xhttp.onreadystatechange = function () {
+				if (xhttp.readyState == 4 && xhttp.status == 200) {
+					var data = JSON.parse(xhttp.responseText);
+					var myList = JSON.parse(xhttp.responseText);
+					for (var i = 0; i
+						< myList.length; i++) {
+						console.log(myList[i]);
+						document.getElementById('factlist').value += myList[i] + '\n';
+					}
+					document.getElementById('factlist').value = document.getElementById('factlist').value.replace(/\n$/, "");
+					document.getElementById('status').innerHTML = 'status: ready';
+					document.getElementById('status').className = 'statusnormal';
+				}
+			}
+			xhttp.send();
+			// xhttp.send(JSON.stringify(payload));
+
+		}
+	</script>
 </head>
 <body class="">
 		
@@ -13,7 +65,9 @@
 			<nav class="website-nav">
 				<ul>
 					<li><a class="home-link" href="http://alexadevgroup.com/">Home</a></li>
-				
+					<li><a href="https://aws.amazon.com/what-is-cloud-computing/">About</a></li>
+					<li><a href="https://aws.amazon.com/solutions/">Services</a></li>
+					<li><a href="https://aws.amazon.com/contact-us/">Contact</a></li>
 				</ul>
 			</nav>
 		</header>
@@ -22,7 +76,7 @@
 			<a class="twitter-link" href="http://twitter.com/home/?status=I%20created%20a%20Silly%20Question%20with%20AWS%20CodeStar!%20%23AWS%20%23AWSCodeStar%20https%3A%2F%2Faws.amazon.com%2Fcodestar"><img src="assets/img/tweet.svg" /></a>
 			<div class="text">
 				<h1>Welcome!</h1>
-				<h2>Submit a new Silly Question with our web app</h2>
+				<h2>Sumit a new Silly Question with our web app</h2>
 			</div>
 		</div>
 
@@ -32,8 +86,8 @@
 			<div class="panel-heading">
 				<form>
 					<div class="form-group">
-						<label FOR="myappid">Application ID:</label>
-						<input type="text" class="form-control" id="appId">
+						<label FOR="appId">Application ID:</label>
+						<input type="appId" class="form-control" id="appId">
 						<br />
 					</div>
 					<br />
@@ -47,7 +101,7 @@
 			<div class="panel-body">
 				<div class="form-group">
 					<label for="factlist">Question List (one question per line)</label>
-					<textarea class="form-control" rows="12" cols="75"  id="factlist"></textarea>
+					<textarea class="form-control" rows="12" cols="50" id="factlist"></textarea>
 				</div>
 			</div>
 		</div>
